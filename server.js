@@ -24,7 +24,25 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get("/api/:time", function(req,res){
+  var date;
 
+  if(!isNaN(req.params.time)){
+    date = new Date(parseInt(req.params.time));
+  }
+  else{
+    date = new Date(req.params.time);
+  }
+  if(date == "Invalid Date"){
+    res.json({"error" : "invalid date"});
+  }
+  res.json( 
+    {
+    "unix" : date.getTime(),
+    "utc" : date.toUTCString()
+    } 
+  );
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
